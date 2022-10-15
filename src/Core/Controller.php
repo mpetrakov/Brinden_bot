@@ -6,19 +6,21 @@ class Controller
 {
     public function success(array $data = [])
     {
-        return $this->response('success', $data);
+        $this->response('success', $data);
     }
 
     public function error(array $data = [])
     {
-        return $this->response('error', $data);
+        $this->response('error', $data);
     }
 
     private function response(string $status, array $data = [])
     {
-        return json_encode([
+        echo json_encode([
             'status' => $status,
             'data' => $data
         ]);
+
+        die();
     }
 }

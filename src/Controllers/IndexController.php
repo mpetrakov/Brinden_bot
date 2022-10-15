@@ -26,9 +26,7 @@ class IndexController extends Controller
 
         file_put_contents(__DIR__ . '/../../message.txt', print_r($chat, true));
 
-//        $chatId = $message['message']['chat']['id'];
-//
-//        Chat::firstOrCreate(['chat_id' => $chatId]);
+        Chat::firstOrCreate(['chat_id' => $chat->get('id')]);
 
         /*
         $text = $result["message"]["text"]; //Текст сообщения
