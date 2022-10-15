@@ -1,5 +1,16 @@
 {
+    "name": "mpetrakov/brinden_bot",
+    "description": "A simple telegram bot",
+    "type": "project",
     "require": {
-        "irazasyed/telegram-bot-sdk": "2.0"
+        "irazasyed/telegram-bot-sdk": "2.0",
+        "vlucas/phpdotenv": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hell\\Mvc\\Controllers\\": "src/Controllers/",
+            "Hell\\Mvc\\Core\\": "src/Core/",
+            "Hell\\Mvc\\Views\\": "src/Views/"
+        }
     }
 }
