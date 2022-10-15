@@ -3,9 +3,10 @@
 namespace Hell\Mvc\Controllers;
 
 use Telegram\Bot\Api;
+use Hell\Mvc\Core\Controller;
 use Hell\Mvc\Models\Chat;
 
-class IndexController
+class IndexController extends Controller
 {
     private Api $api;
 
@@ -17,12 +18,17 @@ class IndexController
     public function index()
     {
         $message = $this->api->getWebhookUpdate();
+        $chat = $message->getChat();
 
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($message, true));
+        if ($chat->isEmpty()) {
+            return $this->error(['message' => 'Empty chat']);
+        }
 
-        $chatId = $message['message']['chat']['id'];
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($chat, true));
 
-        Chat::create(['chat_id' => $chatId]);
+//        $chatId = $message['message']['chat']['id'];
+//
+//        Chat::firstOrCreate(['chat_id' => $chatId]);
 
         /*
         $text = $result["message"]["text"]; //Текст сообщения
