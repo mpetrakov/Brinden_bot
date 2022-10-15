@@ -21,12 +21,15 @@ class IndexController extends Controller
         $chat = $message->getChat();
 
         if ($chat->isEmpty()) {
-            return $this->error(['message' => 'Empty chat']);
+            $this->error(['message' => 'Empty chat']);
         }
 
         file_put_contents(__DIR__ . '/../../message.txt', print_r($chat, true));
 
-        Chat::firstOrCreate(['chat_id' => $chat->get('id')]);
+        Chat::firstOrCreate([
+            'chat_id' => $chat->get('id'),
+            'name' => $chat->get('first_name')
+        ]);
 
         /*
         $text = $result["message"]["text"]; //Текст сообщения
