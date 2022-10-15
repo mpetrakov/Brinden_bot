@@ -3,14 +3,16 @@
     "description": "A simple telegram bot",
     "type": "project",
     "require": {
-        "irazasyed/telegram-bot-sdk": "2.0",
+        "illuminate/database": "^8.83",
+        "irazasyed/telegram-bot-sdk": "^3.9",
         "vlucas/phpdotenv": "^5.4"
     },
     "autoload": {
         "psr-4": {
             "Hell\\Mvc\\Controllers\\": "src/Controllers/",
             "Hell\\Mvc\\Core\\": "src/Core/",
-            "Hell\\Mvc\\Views\\": "src/Views/"
+            "Hell\\Mvc\\Views\\": "src/Views/",
+            "Hell\\Mvc\\Models\\": "src/Models/"
         }
     }
 }

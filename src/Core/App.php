@@ -6,6 +6,8 @@ class App
 {
     public static function run()
     {
+        Database::bootEloquent();
+
         $controller_name = "Hell\\Mvc\\Controllers\\IndexController";
         $action_name = "index";
 
