@@ -17,7 +17,7 @@ class IndexController
     {
         $message = $this->api->getWebhookUpdates();
 
-        file_put_contents(__DIR__ . '../message.txt', print_r($message, true));
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($message, true));
 
         /*
         $text = $result["message"]["text"]; //Текст сообщения
