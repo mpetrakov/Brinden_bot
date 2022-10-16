@@ -7,6 +7,7 @@ use Telegram\Bot\Api;
 use Hell\Mvc\Core\Controller;
 use Hell\Mvc\Commands\StartCommand;
 use Hell\Mvc\Commands\AddNoticeCommand;
+use Hell\Mvc\Actions\CalendarAction;
 
 class IndexController extends Controller
 {
@@ -29,10 +30,16 @@ class IndexController extends Controller
         $webhookData = $this->api->getWebhookUpdate();
         $callbackQuery = $webhookData->callbackQuery;
 
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData, true) . "\n", FILE_APPEND | LOCK_EX);
+        // file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData, true) . "\n", FILE_APPEND | LOCK_EX);
 
-        if ($callbackQuery->isNotEmpty()) {
-            file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData->callbackQuery->get('data'), true) . "\n", FILE_APPEND | LOCK_EX);
+        if ($callbackQuery->isEmpty()) {
+            $this->success(['message' => 'Empty callbackQuery']);
+        }
+
+        $callbackData = collect(explode('-', $callbackQuery->get('data')));
+
+        if ($callbackData->isNotEmpty() && $callbackData[0] === 'calendar') {
+            (new CalendarAction($callbackData))->handle();
         }
     }
 }
