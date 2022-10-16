@@ -19,8 +19,6 @@ class StartCommand extends Command
         $webhookData = (new Api($_ENV['TELEGRAM_TOKEN']))->getWebhookUpdate();
         $chat = $webhookData->getChat();
 
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData, true) . "\n", FILE_APPEND | LOCK_EX);
-
         Chat::firstOrCreate([
             'chat_id' => $chat->get('id'),
             'name' => $chat->get('first_name')
