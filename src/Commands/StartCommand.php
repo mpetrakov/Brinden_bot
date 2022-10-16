@@ -27,6 +27,6 @@ class StartCommand extends Command
         ]);
 
         $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $this->replyWithMessage(['text' => "Привет, {$chat->get('first_name')}!"]);
+        $this->replyWithMessage(['text' => "Привет, {$chat->get('first_name')}! Для добавления напоминания введи команду /add_notice"]);
     }
 }

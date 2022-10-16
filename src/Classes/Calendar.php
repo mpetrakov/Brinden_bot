@@ -24,7 +24,7 @@ class Calendar
             $nextMonthCallback .= ($month + 1) . '-' . $year;
         }
 
-        $start = new \DateTime(sprintf('%d-%d-01', $year, $month));
+        $start = new DateTime(sprintf('%d-%d-01', $year, $month));
 
         $calendarMap = [
             [
