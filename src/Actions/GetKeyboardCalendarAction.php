@@ -28,14 +28,14 @@ class GetKeyboardCalendarAction
 
         switch ($this->options->get(1)) {
             case 'month':
-                $messageCalendar['inline_keyboard'] = Keyboard::make($calendar->getCalendar((int)$this->options->get(2), (int)$this->options->get(3)));
+                $keyboardCalendar['inline_keyboard'] = Keyboard::make($calendar->getCalendar((int)$this->options->get(2), (int)$this->options->get(3)));
                 break;
             case 'year':
             case 'months_list':
-                $messageCalendar['inline_keyboard'] = Keyboard::make($calendar->getMonthsList((int)$this->options->get(2)));
+                $keyboardCalendar['inline_keyboard'] = Keyboard::make($calendar->getMonthsList((int)$this->options->get(2)));
                 break;
             case 'years_list':
-                $messageCalendar['inline_keyboard'] = Keyboard::make($calendar->getYearsList((int)$this->options->get(2)));
+                $keyboardCalendar['inline_keyboard'] = Keyboard::make($calendar->getYearsList((int)$this->options->get(2)));
                 break;
         }
 
