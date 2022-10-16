@@ -4,7 +4,6 @@ namespace Hell\Mvc\Controllers;
 
 use Telegram\Bot\Api;
 use Hell\Mvc\Core\Controller;
-use Hell\Mvc\Models\Chat;
 use Hell\Mvc\Classes\Calendar;
 
 use Hell\Mvc\Commands\StartCommand;
