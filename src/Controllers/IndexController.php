@@ -16,13 +16,15 @@ class IndexController extends Controller
     public function __construct()
     {
         $this->api = new Api($_ENV['TELEGRAM_TOKEN']);
+
+        $this->api->addCommands([
+            StartCommand::class
+        ]);
     }
 
     public function index()
     {
-        $this->api->addCommands([
-            StartCommand::class
-        ]);
+        $this->api->commandsHandler(true);
         /*
         $webhookData = $this->api->getWebhookUpdate();
         $messageData = $webhookData->getMessage();
