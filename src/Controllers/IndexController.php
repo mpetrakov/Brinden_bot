@@ -7,7 +7,7 @@ use Telegram\Bot\Api;
 use Hell\Mvc\Core\Controller;
 use Hell\Mvc\Commands\StartCommand;
 use Hell\Mvc\Commands\AddNoticeCommand;
-use Hell\Mvc\Actions\CalendarAction;
+use Hell\Mvc\Actions\GetKeyboardCalendarAction;
 
 class IndexController extends Controller
 {
@@ -39,7 +39,8 @@ class IndexController extends Controller
         $callbackData = collect(explode('-', $callbackQuery->get('data')));
 
         if ($callbackData->isNotEmpty() && $callbackData->get(0) === 'calendar') {
-            (new CalendarAction($callbackData))->handle();
+            $keyboard = (new GetKeyboardCalendarAction($callbackData))->handle();
+            file_put_contents(__DIR__ . '/../../message.txt', print_r($keyboard, true) . "\n", FILE_APPEND | LOCK_EX);
         }
     }
 }

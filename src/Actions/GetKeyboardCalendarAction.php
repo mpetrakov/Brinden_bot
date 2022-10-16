@@ -8,7 +8,7 @@ use Telegram\Bot\Keyboard\Keyboard;
 
 use Hell\Mvc\Classes\Calendar;
 
-class CalendarAction
+class GetKeyboardCalendarAction
 {
     private Collection $options;
 
@@ -20,7 +20,7 @@ class CalendarAction
     public function handle()
     {
         $calendar = new Calendar();
-        $messageCalendar = [
+        $keyboardCalendar = [
             'inline_keyboard' => null,
             'resize_keyboard' => true,
             'one_time_keyboard' => true
@@ -38,6 +38,8 @@ class CalendarAction
                 $messageCalendar['inline_keyboard'] = Keyboard::make($calendar->getYearsList((int)$this->options->get(2)));
                 break;
         }
+
+        return $keyboardCalendar;
 
         $api = new Api($_ENV['TELEGRAM_TOKEN']);
         $webhookData = $api->getWebhookUpdate();
