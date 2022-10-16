@@ -12,7 +12,9 @@
             "Hell\\Mvc\\Controllers\\": "src/Controllers/",
             "Hell\\Mvc\\Core\\": "src/Core/",
             "Hell\\Mvc\\Views\\": "src/Views/",
-            "Hell\\Mvc\\Models\\": "src/Models/"
+            "Hell\\Mvc\\Models\\": "src/Models/",
+            "Hell\\Mvc\\Commands\\": "src/Commands/",
+            "Hell\\Mvc\\Classes\\": "src/Classes/"
         }
     }
 }

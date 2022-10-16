@@ -5,6 +5,9 @@ namespace Hell\Mvc\Controllers;
 use Telegram\Bot\Api;
 use Hell\Mvc\Core\Controller;
 use Hell\Mvc\Models\Chat;
+use Hell\Mvc\Classes\Calendar;
+
+use Hell\Mvc\Commands\StartCommand;
 
 class IndexController extends Controller
 {
@@ -17,6 +20,10 @@ class IndexController extends Controller
 
     public function index()
     {
+        $this->api->addCommands([
+            StartCommand::class
+        ]);
+        /*
         $webhookData = $this->api->getWebhookUpdate();
         $messageData = $webhookData->getMessage();
         $chatData = $webhookData->getChat();
@@ -30,18 +37,29 @@ class IndexController extends Controller
 
         $chatId = $chatData->get('id');
         $name = $chatData->get('first_name');
+        $text = $messageData->get('text');
 
         Chat::firstOrCreate([
             'chat_id' => $chatId,
             'name' => $name
         ]);
 
-        if ($messageData->get('text') === '/start') {
+        if ($text === '/start') {
             return $this->api->sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Привет, {$name}. Для того, чтобы оставить напоминание, введи текст в формате Дата/Время/Текст напоминания"
+                'text' => "Привет, {$name}. Для того, чтобы оставить напоминание, введи текст в формате Дата/Время/Текст напоминания."
             ]);
         }
+
+        if ($text === '/add') {
+            return $this->api->sendMessage([
+                'chat_id' => $chatId,
+                'text' => 'Выберите дату',
+                'reply_markup' => $this->api->inline
+            ]);
+        }
+        */
+
         /*
         $text = $result["message"]["text"]; //Текст сообщения
         $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
