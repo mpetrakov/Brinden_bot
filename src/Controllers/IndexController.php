@@ -24,8 +24,11 @@ class IndexController extends Controller
 
     public function index()
     {
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($this->api->getWebhookUpdate(), true) . "\n", FILE_APPEND | LOCK_EX);
-
         $this->api->commandsHandler(true);
+
+        $webhookData = $this->api->getWebhookUpdate();
+
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData, true) . "\n", FILE_APPEND | LOCK_EX);
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData->callbackQuery, true) . "\n", FILE_APPEND | LOCK_EX);
     }
 }
