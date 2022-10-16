@@ -17,14 +17,16 @@ class IndexController extends Controller
 
     public function index()
     {
-        $message = $this->api->getWebhookUpdate();
-        $chat = $message->getChat();
+        $webhookData = $this->api->getWebhookUpdate();
+        $message = $webhookData->getMessage();
+        $chat = $webhookData->getChat();
 
         if ($chat->isEmpty()) {
             $this->error(['message' => 'Empty chat']);
         }
 
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($chat, true));
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($message, true) . "\n", FILE_APPEND | LOCK_EX);
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($chat, true) . "\n", FILE_APPEND | LOCK_EX);
 
         Chat::firstOrCreate([
             'chat_id' => $chat->get('id'),
