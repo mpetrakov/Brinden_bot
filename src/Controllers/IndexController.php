@@ -32,14 +32,12 @@ class IndexController extends Controller
 
         file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData, true) . "\n", FILE_APPEND | LOCK_EX);
 
-        if ($callbackQuery->isEmpty()) {
-            $this->success(['message' => 'Empty callbackQuery']);
-        }
-
-        $callbackData = collect(explode('-', $callbackQuery->get('data')));
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($callbackData, true) . "\n", FILE_APPEND | LOCK_EX);
+        if ($callbackQuery->isNotEmpty()) {
+            $callbackData = collect(explode('-', $callbackQuery->get('data')));
+            file_put_contents(__DIR__ . '/../../message.txt', print_r($callbackData, true) . "\n", FILE_APPEND | LOCK_EX);
 //        if ($callbackData->isNotEmpty() && $callbackData[0] === 'calendar') {
 //            (new CalendarAction($callbackData))->handle();
 //        }
+        }
     }
 }
