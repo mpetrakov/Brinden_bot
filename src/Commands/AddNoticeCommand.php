@@ -21,7 +21,8 @@ class AddNoticeCommand extends Command
             'text' => 'Выбери дату',
             'reply_markup' => Keyboard::make([
                 'inline_keyboard' => (new Calendar())->getCalendar((int)date('m'), (int)date('Y')),
-                'resize_keyboard' => true
+                'resize_keyboard' => true,
+                'selective' => true
             ])
         ]);
     }

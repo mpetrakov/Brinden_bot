@@ -142,7 +142,6 @@ class Calendar
             }
         }
 
-
         return $listMap;
     }
 }
