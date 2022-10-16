@@ -18,21 +18,30 @@ class IndexController extends Controller
     public function index()
     {
         $webhookData = $this->api->getWebhookUpdate();
-        $message = $webhookData->getMessage();
-        $chat = $webhookData->getChat();
+        $messageData = $webhookData->getMessage();
+        $chatData = $webhookData->getChat();
 
-        if ($chat->isEmpty()) {
+        if ($chatData->isEmpty()) {
             $this->error(['message' => 'Empty chat']);
         }
 
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($message, true) . "\n", FILE_APPEND | LOCK_EX);
-        file_put_contents(__DIR__ . '/../../message.txt', print_r($chat, true) . "\n", FILE_APPEND | LOCK_EX);
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($messageData, true) . "\n", FILE_APPEND | LOCK_EX);
+        file_put_contents(__DIR__ . '/../../message.txt', print_r($chatData, true) . "\n", FILE_APPEND | LOCK_EX);
+
+        $chatId = $chatData->get('id');
+        $name = $chatData->get('first_name');
 
         Chat::firstOrCreate([
-            'chat_id' => $chat->get('id'),
-            'name' => $chat->get('first_name')
+            'chat_id' => $chatId,
+            'name' => $name
         ]);
 
+        if ($messageData->get('text') === '/start') {
+            return $this->api->sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Привет, {$name}. Для того, чтобы оставить напоминание, введи текст в формате Дата/Время/Текст напоминания"
+            ]);
+        }
         /*
         $text = $result["message"]["text"]; //Текст сообщения
         $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
