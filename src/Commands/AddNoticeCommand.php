@@ -22,8 +22,7 @@ class AddNoticeCommand extends Command
             'reply_markup' => Keyboard::make([
                 'inline_keyboard' => (new Calendar())->getCalendar((int)date('m'), (int)date('Y')),
                 'resize_keyboard' => true,
-                'one_time_keyboard' => true,
-                'selective' => true
+                'one_time_keyboard' => true
             ])
         ]);
     }
