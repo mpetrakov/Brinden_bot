@@ -20,41 +20,39 @@ class GetKeyboardCalendarAction
     public function handle()
     {
         $calendar = new Calendar();
-        $keyboardCalendar = [
-            'inline_keyboard' => null,
-            'resize_keyboard' => true,
-            'one_time_keyboard' => true
-        ];
+        $keyboardCalendar = null;
 
         switch ($this->options->get(1)) {
             case 'month':
-                $keyboardCalendar['inline_keyboard'] = Keyboard::make($calendar->getCalendar((int)$this->options->get(2), (int)$this->options->get(3)));
+                $keyboardCalendar = $calendar->getCalendar((int)$this->options->get(2), (int)$this->options->get(3));
                 break;
             case 'year':
             case 'months_list':
-                $keyboardCalendar['inline_keyboard'] = Keyboard::make($calendar->getMonthsList((int)$this->options->get(2)));
+                $keyboardCalendar = $calendar->getMonthsList((int)$this->options->get(2));
                 break;
             case 'years_list':
-                $keyboardCalendar['inline_keyboard'] = Keyboard::make($calendar->getYearsList((int)$this->options->get(2)));
+                $keyboardCalendar = $calendar->getYearsList((int)$this->options->get(2));
                 break;
         }
-
-        return $keyboardCalendar;
 
         $api = new Api($_ENV['TELEGRAM_TOKEN']);
         $webhookData = $api->getWebhookUpdate();
 
-        if (is_null($messageCalendar['inline_keyboard'])) {
+        if (is_null($keyboardCalendar)) {
             return $api->sendMessage([
                 'chat_id' => $webhookData->getChat()->get('id'),
                 'text' => 'Произошла ошибка!'
             ]);
         }
 
-        return $api->editMessageText([
+        return $api->editMessageReplyMarkup([
             'chat_id' => $webhookData->getChat()->get('id'),
-            'message_id' => $webhookData->getMessage()->get('id'),
-            'reply_markup' => $messageCalendar
+            'message_id' => $webhookData->getMessage()->get('message_id'),
+            'reply_markup' => Keyboard::make([
+                'inline_keyboard' => $keyboardCalendar,
+                'resize_keyboard' => true,
+                'one_time_keyboard' => true
+            ])
         ]);
     }
 }

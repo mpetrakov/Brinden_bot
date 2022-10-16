@@ -39,21 +39,7 @@ class IndexController extends Controller
         $callbackData = collect(explode('-', $callbackQuery->get('data')));
 
         if ($callbackData->isNotEmpty() && $callbackData->get(0) === 'calendar') {
-            $keyboard = (new GetKeyboardCalendarAction($callbackData))->handle();
-
-            if (is_null($keyboard['inline_keyboard'])) {
-                return $this->api->sendMessage([
-                    'chat_id' => $webhookData->getChat()->get('id'),
-                    'text' => 'Произошла ошибка!'
-                ]);
-            }
-
-            return $this->api->editMessageText([
-                'chat_id' => $webhookData->getChat()->get('id'),
-                'message_id' => $webhookData->getMessage()->get('id'),
-                'reply_markup' => $keyboard
-            ]);
-            //file_put_contents(__DIR__ . '/../../message.txt', print_r($keyboard, true) . "\n", FILE_APPEND | LOCK_EX);
+            (new GetKeyboardCalendarAction($callbackData))->handle();
         }
     }
 }
