@@ -19,13 +19,18 @@ class SendNoticeAction
         $api = new Api($_ENV['TELEGRAM_TOKEN']);
 
         return $notices->each(function ($notice) use ($api) {
+            if ($notice->date !== date('Y-m-d')) {
+                return true;
+            }
+
             $api->sendMessage([
                 'chat_id' => $notice->chat->chat_id,
                 'text' => "Новое уведомление!\n{$notice->text}"
             ]);
 
             $notice->status = Notice::STATUS_SEND;
-            $notice->save();
+
+            return $notice->save();
         });
     }
 }
