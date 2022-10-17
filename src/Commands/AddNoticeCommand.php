@@ -33,7 +33,7 @@ class AddNoticeCommand extends Command
 
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
-            'text' => 'Выбери дату',
+            'text' => '📅 Выбери дату',
             'reply_markup' => Keyboard::make([
                 'inline_keyboard' => (new Calendar())->getCalendar((int)date('m'), (int)date('Y')),
                 'resize_keyboard' => true,

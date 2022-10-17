@@ -38,8 +38,23 @@ class IndexController extends Controller
 
         $callbackData = collect(explode('-', $callbackQuery->get('data')));
 
-        if ($callbackData->isNotEmpty() && $callbackData->get(0) === 'calendar') {
-            (new GetKeyboardCalendarAction($callbackData))->handle();
+        if ($callbackData->isNotEmpty()) {
+            $chatId = $webhookData->getChat()->get('id');
+
+            switch ($callbackData->get(0)) {
+                case 'null_callback':
+                    return $this->api->sendMessage([
+                        'chat_id' => $chatId,
+                        'text' => '🤙 Нужно сделать выбор!'
+                    ]);
+                case 'calendar':
+                    return (new GetKeyboardCalendarAction($callbackData))->handle();
+                default:
+                    return $this->api->sendMessage([
+                        'chat_id' => $chatId,
+                        'text' => '🤕 Что-то пошло не так...'
+                    ]);
+            }
         }
     }
 }
