@@ -20,7 +20,8 @@ class IndexController extends Controller
 
         $this->api->addCommands([
             StartCommand::class,
-            AddNoticeCommand::class
+            AddNoticeCommand::class,
+            TestCommand::class
         ]);
     }
 
