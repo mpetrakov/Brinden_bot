@@ -18,10 +18,18 @@ class AddCalendarDateAction
 
     public function handle()
     {
-        $webhookData = (new Api($_ENV['TELEGRAM_TOKEN']))->getWebhookUpdate();
+        $api = new Api($_ENV['TELEGRAM_TOKEN']);
+        $webhookData = $api->getWebhookUpdate();
         $currentChat = Chat::firstWhere('chat_id', $webhookData->getChat()->get('id'));
 
-        Notice::where('status', Notice::STATUS_NEW)
+        if ($this->date < date('Y-m-d')) {
+            return $api->sendMessage([
+                'chat_id' => $webhookData->getChat()->get('id'),
+                'text' => '🤕 Нельзя выбрать дату в прошлом...'
+            ]);
+        }
+
+        return Notice::where('status', Notice::STATUS_NEW)
             ->where('chat_id', $currentChat->id)
             ->update([
                 'status' => Notice::STATUS_PROCESSED,
