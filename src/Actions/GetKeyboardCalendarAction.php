@@ -21,6 +21,7 @@ class GetKeyboardCalendarAction
     {
         $calendar = new Calendar();
         $keyboardCalendar = null;
+        $selectedDay = null;
 
         switch ($this->options->get(1)) {
             case 'month':
@@ -33,20 +34,31 @@ class GetKeyboardCalendarAction
             case 'years_list':
                 $keyboardCalendar = $calendar->getYearsList((int)$this->options->get(2));
                 break;
+            case 'day':
+                $selectedDay = "{$this->options->get(4)}-{$this->options->get(3)}-{$this->options->get(2)}";
+                break;
         }
 
         $api = new Api($_ENV['TELEGRAM_TOKEN']);
         $webhookData = $api->getWebhookUpdate();
+        $chatId = $webhookData->getChat()->get('id');
 
-        if (is_null($keyboardCalendar)) {
+        if (is_null($keyboardCalendar) && is_null($selectedDay)) {
             return $api->sendMessage([
-                'chat_id' => $webhookData->getChat()->get('id'),
+                'chat_id' => $chatId,
                 'text' => 'Произошла ошибка!'
             ]);
         }
 
+        if (is_null($keyboardCalendar) && !is_null($selectedDay)) {
+            return $api->sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Ты выбрал: {$selectedDay}"
+            ]);
+        }
+
         return $api->editMessageReplyMarkup([
-            'chat_id' => $webhookData->getChat()->get('id'),
+            'chat_id' => $chatId,
             'message_id' => $webhookData->getMessage()->get('message_id'),
             'reply_markup' => Keyboard::make([
                 'inline_keyboard' => $keyboardCalendar,
