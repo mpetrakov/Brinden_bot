@@ -20,20 +20,26 @@ class AddCalendarDateAction
     {
         $api = new Api($_ENV['TELEGRAM_TOKEN']);
         $webhookData = $api->getWebhookUpdate();
-        $currentChat = Chat::firstWhere('chat_id', $webhookData->getChat()->get('id'));
+        $chatId = $webhookData->getChat()->get('id');
+        $currentChat = Chat::firstWhere('chat_id', $chatId);
 
         if ($this->date < date('Y-m-d')) {
             return $api->sendMessage([
-                'chat_id' => $webhookData->getChat()->get('id'),
+                'chat_id' => $chatId,
                 'text' => '🤕 Нельзя выбрать дату в прошлом...'
             ]);
         }
 
-        return Notice::where('status', Notice::STATUS_NEW)
+        Notice::whereIn('status', [Notice::STATUS_NEW, Notice::STATUS_PROCESSED])
             ->where('chat_id', $currentChat->id)
             ->update([
                 'status' => Notice::STATUS_PROCESSED,
                 'date' => $this->date
             ]);
+
+        return $api->sendMessage([
+            'chat_id' => $chatId,
+            'text' => '🖊️ Введите текст напоминания'
+        ]);
     }
 }
