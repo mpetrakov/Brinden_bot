@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Telegram\Bot\Api;
 use Telegram\Bot\Keyboard\Keyboard;
 
+use Hell\Mvc\Actions\AddCalendarDateAction;
 use Hell\Mvc\Classes\Calendar;
 
 class GetKeyboardCalendarAction
@@ -51,10 +52,7 @@ class GetKeyboardCalendarAction
         }
 
         if (is_null($keyboardCalendar) && !is_null($selectedDay)) {
-            return $api->sendMessage([
-                'chat_id' => $chatId,
-                'text' => "Ты выбрал: {$selectedDay}"
-            ]);
+            return (new AddCalendarDateAction($selectedDay))->handle();
         }
 
         return $api->editMessageReplyMarkup([

@@ -6,7 +6,6 @@ use Telegram\Bot\Api;
 
 use Hell\Mvc\Core\Controller;
 use Hell\Mvc\Commands\StartCommand;
-use Hell\Mvc\Commands\TestCommand;
 use Hell\Mvc\Commands\AddNoticeCommand;
 use Hell\Mvc\Actions\GetKeyboardCalendarAction;
 
@@ -20,8 +19,7 @@ class IndexController extends Controller
 
         $this->api->addCommands([
             StartCommand::class,
-            AddNoticeCommand::class,
-            TestCommand::class
+            AddNoticeCommand::class
         ]);
     }
 

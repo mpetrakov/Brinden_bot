@@ -40,7 +40,5 @@ class AddNoticeCommand extends Command
                 'one_time_keyboard' => true
             ])
         ]);
-
-        $this->triggerCommand('test');
     }
 }
