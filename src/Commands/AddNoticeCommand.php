@@ -2,11 +2,13 @@
 
 namespace Hell\Mvc\Commands;
 
+use Telegram\Bot\Api;
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Keyboard\Keyboard;
 
 use Hell\Mvc\Classes\Calendar;
+use Hell\Mvc\Models\Chat;
 use Hell\Mvc\Models\Notice;
 
 class AddNoticeCommand extends Command
@@ -17,16 +19,17 @@ class AddNoticeCommand extends Command
 
     public function handle()
     {
-        $oldNotice = Notice::firstWhere('status', [Notice::STATUS_NEW, Notice::STATUS_PROCESSED]);
+        $webhookData = (new Api($_ENV['TELEGRAM_TOKEN']))->getWebhookUpdate();
+        $currentChat = Chat::firstWhere('chat_id', $webhookData->getChat()->get('id'));
 
-        if ($oldNotice->isNotEmpty) {
-            $oldNotice->status = Notice::STATUS_CANCELLED;
-            $oldNotice->save();
-        }
+        Notice::where('status', [Notice::STATUS_NEW, Notice::STATUS_PROCESSED])
+            ->where('chat_id', $currentChat->id)
+            ->update(['status' => Notice::STATUS_CANCELLED]);
 
-
-        // Если у нас есть раннее уведомление в статусах "Новое", "В процессе" и мы снова сюда попадаем,
-        // то это раннее уведомление нужно перенести в статус "Отменено".
+        Notice::create([
+            'chat_id' => $currentChat->id,
+            'status' => Notice::STATUS_NEW
+        ]);
 
         $this->replyWithChatAction(['action' => Actions::TYPING]);
         $this->replyWithMessage([
@@ -37,13 +40,5 @@ class AddNoticeCommand extends Command
                 'one_time_keyboard' => true
             ])
         ]);
-
-
-//        $this->replyWithChatAction(['action' => Actions::TYPING]);
-//        $this->replyWithMessage([
-//            'text' => 'Введите текст напоминания',
-//        ]);
-
     }
-
 }
