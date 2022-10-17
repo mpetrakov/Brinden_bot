@@ -22,7 +22,7 @@ class AddNoticeCommand extends Command
         $webhookData = (new Api($_ENV['TELEGRAM_TOKEN']))->getWebhookUpdate();
         $currentChat = Chat::firstWhere('chat_id', $webhookData->getChat()->get('id'));
 
-        Notice::where('status', [Notice::STATUS_NEW, Notice::STATUS_PROCESSED])
+        Notice::whereIn('status', [Notice::STATUS_NEW, Notice::STATUS_PROCESSED])
             ->where('chat_id', $currentChat->id)
             ->update(['status' => Notice::STATUS_CANCELLED]);
 
