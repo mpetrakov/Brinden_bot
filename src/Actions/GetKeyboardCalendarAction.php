@@ -41,7 +41,6 @@ class GetKeyboardCalendarAction
         if (is_null($keyboardCalendar)) {
             return $api->sendMessage([
                 'chat_id' => $webhookData->getChat()->get('id'),
-                'text' => 'Произошла ошибка!'
             ]);
         }
 

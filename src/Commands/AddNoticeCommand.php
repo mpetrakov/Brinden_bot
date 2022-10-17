@@ -39,10 +39,11 @@ class AddNoticeCommand extends Command
         ]);
 
 
-        $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $this->replyWithMessage([
-            'text' => 'Введите текст напоминания',
-        ]);
+//        $this->replyWithChatAction(['action' => Actions::TYPING]);
+//        $this->replyWithMessage([
+//            'text' => 'Введите текст напоминания',
+//        ]);
+
     }
 
 }
