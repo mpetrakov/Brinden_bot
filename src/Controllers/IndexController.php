@@ -32,8 +32,6 @@ class IndexController extends Controller
         $callbackQuery = $webhookData->callbackQuery;
         $text = $webhookData->getMessage()->get('text');
 
-        // file_put_contents(__DIR__ . '/../../message.txt', print_r($webhookData, true) . "\n", FILE_APPEND | LOCK_EX);
-
         if (!is_null($callbackQuery)) {
             $callbackData = collect(explode('-', $callbackQuery->get('data')));
 
