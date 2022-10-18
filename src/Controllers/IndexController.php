@@ -58,11 +58,11 @@ class IndexController extends Controller
         }
 
         if (!is_null($text)) {
-            (new AddTextAction($text))->handle();
+             (new AddTextAction($text))->handle();
         }
 
 
-        return (new PlannedNoticeAction)->handle();
+            return (new PlannedNoticeAction)->handle();
 
     }
 }
