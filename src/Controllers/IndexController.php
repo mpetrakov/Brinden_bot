@@ -63,6 +63,6 @@ class IndexController extends Controller
 
 
         return (new PlannedNoticeAction)->handle();
-        
+
     }
 }

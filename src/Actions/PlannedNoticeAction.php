@@ -28,8 +28,7 @@ class PlannedNoticeAction
                 'text' => "Напоминание запланировано!\n{$notice->text}"
             ]);
 
-
-            return $notice->save();
+            $notice->save();
         });
     }
 }
