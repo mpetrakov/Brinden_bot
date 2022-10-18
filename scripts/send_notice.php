@@ -1,6 +1,6 @@
 <?php
 
-require_once '../vendor/autoload.php';
+require_once 'C:/OpenServer/domains/Brinden_bot/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use Hell\Mvc\Core\Database;
