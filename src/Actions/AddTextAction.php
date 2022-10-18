@@ -23,15 +23,11 @@ class AddTextAction
         $chatId = $webhookData->getChat()->get('id');
         $currentChat = Chat::firstWhere('chat_id', $chatId);
 
-        Notice::where('status', Notice::STATUS_PROCESSED)
+        return Notice::where('status', Notice::STATUS_PROCESSED)
             ->where('chat_id', $currentChat->id)
             ->update([
                 'status' => Notice::STATUS_PLANNED,
                 'text' => $this->text
             ]);
-        return $api->sendMessage([
-            'chat_id' => $chatId,
-            'text' => '🖊️ А если так?'
-        ]);
     }
 }
