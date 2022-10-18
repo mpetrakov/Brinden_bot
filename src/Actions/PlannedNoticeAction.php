@@ -18,11 +18,18 @@ class PlannedNoticeAction
 
         $api = new Api($_ENV['TELEGRAM_TOKEN']);
 
+        return $notices->each(function ($notice) use ($api) {
+            if ($notice->date !== date('Y-m-d')) {
+                return true;
+            }
+
             $api->sendMessage([
-                'chat_id' => $notices->chat->chat_id,
-                'text' => "Напоминание запланировано!\n{$notices->text}"
+                'chat_id' => $notice->chat->chat_id,
+                'text' => "Напоминание запланировано!\n{$notice->text}"
             ]);
 
-            $notices->save();
+
+            $notice->save();
+        });
     }
 }
