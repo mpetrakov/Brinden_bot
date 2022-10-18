@@ -11,6 +11,7 @@ use Hell\Mvc\Actions\GetKeyboardCalendarAction;
 use Hell\Mvc\Actions\AddTextAction;
 use Hell\Mvc\Actions\PlannedNoticeAction;
 
+
 class IndexController extends Controller
 {
     private Api $api;
@@ -57,11 +58,11 @@ class IndexController extends Controller
         }
 
         if (!is_null($text)) {
-            return (new AddTextAction($text))->handle();
+            (new AddTextAction($text))->handle();
         }
 
-        if (!is_null($text)) {
-            return (new PlannedNoticeAction($text))->handle();
-        }
+
+        return (new PlannedNoticeAction)->handle();
+        
     }
 }
