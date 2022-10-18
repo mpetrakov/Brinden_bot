@@ -9,8 +9,6 @@ use Hell\Mvc\Commands\StartCommand;
 use Hell\Mvc\Commands\AddNoticeCommand;
 use Hell\Mvc\Actions\GetKeyboardCalendarAction;
 use Hell\Mvc\Actions\AddTextAction;
-use Hell\Mvc\Actions\PlannedNoticeAction;
-
 
 class IndexController extends Controller
 {
@@ -60,9 +58,5 @@ class IndexController extends Controller
         if (!is_null($text)) {
             return (new AddTextAction($text))->handle();
         }
-
-
-//            return (new PlannedNoticeAction)->handle();
-
     }
 }
